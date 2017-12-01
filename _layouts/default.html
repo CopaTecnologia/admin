@@ -1,0 +1,36 @@
+---
+layout: compress
+---
+
+<!DOCTYPE html>
+<html>
+
+  {% include head.html %}
+
+  <body>
+
+    {% include header.html %}
+
+    {{ content }}
+
+    {% include footer.html %}
+
+        
+    <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+    <script>
+      var config = {
+        apiKey: "AIzaSyBEvC91YGcklrF58n9AsaKiDUbh1h7NFoA",
+        authDomain: "copatec-admin.firebaseapp.com",
+        databaseURL: "https://copatec-admin.firebaseio.com",
+        projectId: "copatec-admin",
+        storageBucket: "",
+        messagingSenderId: "1006703139272"
+      };
+      firebase.initializeApp(config);
+    </script>
+
+    <script src="{{ site.baseurl }}/js/main.js"></script>
+
+  </body>
+
+</html>
