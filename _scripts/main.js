@@ -1,2 +1,4 @@
 
-console.log('ES6! Yey! Thank you, Babel.');
+const FIREBASE_AUTH = firebase.auth();
+const FIREBASE_DATABASE = firebase.database();
+
