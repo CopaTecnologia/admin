@@ -1,25 +1,9 @@
 ---
-title: Johnylab's Johnyplate
+title: Copa Tecnologia - Bizz
 timezone: America/Sao_Paulo
-collections:
-  posts:
-    title: Posts
-    output: true
-  sections:
-    title: Sections (não alterar)
-    output: false
-  uploads:
-    title: Uploads
-    output: true
-defaults:
-- scope:
-    path: ''
-    type: posts
-  values:
-    layout: post
-description: My own Jekyll-Babel boilerplate.
-baseurl: "/johnyplate"
-url: http://johnylab.net
+description: Área restrita.
+baseurl: "/bizz"
+url: http://copatecnologia.com.br
 markdown: kramdown
 sass:
   style: compressed
