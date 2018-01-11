@@ -8,12 +8,34 @@
     text-decoration: none
     background-color: $brand-color
     color: #fff
-    border: 0 none
-    border-radius: 4px
+    border: 1px solid transparent
+    border-radius: $ui-border-radius
 
     &:hover, &:focus, &:active
 
         color: #fff
         text-decoration: none
-        box-shadow: 0 3px 8px 0 rgba(black, .5)
+        box-shadow: $ui-box-shadow
+        -webkit-transform: translateY(-1px)
         transform: translateY(-1px)
+    
+    &:active
+
+        -webkit-transform: scale(.95)
+        transform: scale(.95)
+
+    +variant(link)
+
+        &, &:hover, &:focus
+
+            font-weight: 600
+            color: $brand-color
+            background: transparent
+            border-color: transparent
+            box-shadow: none
+            -webkit-transform: translate3d(0,0,0)
+            transform: translate3d(0,0,0)
+        
+        &:active
+            -webkit-transform: scale(.95)
+            transform: scale(.95)
