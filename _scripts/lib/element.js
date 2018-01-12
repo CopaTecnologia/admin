@@ -9,8 +9,8 @@ export default function(element, config) {
         for (const prop in props) {
 
             const isObject = prop in obj && typeof obj[prop] === 'object';
-
-            if (isObject) extendObject(obj[prop], props[prop]);
+            if (prop === 'events') for (const e in props[prop]) obj.addEventListener(e, props[prop][e], false);
+            else if (isObject) extendObject(obj[prop], props[prop]);
             else obj[prop] = props[prop];
 
         }
