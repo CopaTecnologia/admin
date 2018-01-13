@@ -40,6 +40,22 @@ function handleAuthStateChanged(user) {
         });
         ui.usernameLabel.innerHTML = `<span data-block="inline circ"><img src="${user.photoURL}" height="25"></span>
             <small title="${user.email}">${user.displayName}</small>`;
+
+        const userRef = FIREBASE_DATABASE.ref(`users/${user.uid}`);
+        userRef.once('value', snapshot => {
+            if (!snapshot.val()) {
+                userRef.set({
+                    email: user.email,
+                    displayName: user.displayName,
+                    photoURL: user.photoURL,
+                    lastSignInTime: Date()
+                });
+            }
+            else {
+                userRef.child('lastSignInTime').set(Date());
+            }
+        });
+
     }
     else {
         ui.compose({
