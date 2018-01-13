@@ -47,7 +47,7 @@ const ui = {
     }
 };
 
-ui.pageLinks.forEach(link => link.addEventListener('click', function(e) {
+Array.prototype.forEach.call(ui.pageLinks, link => link.addEventListener('click', function(e) {
     if (this.hash) {
         e.preventDefault();
         ui.hide(ui.sections);

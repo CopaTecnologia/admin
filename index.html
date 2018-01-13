@@ -44,7 +44,11 @@ sections:
 
 </section>
 
-<script>window.onload = () => document.querySelector('#greetings .loading').style.opacity = 1;</script>
+<script>
+window.onload = function() {
+    document.querySelector('#greetings .loading').style.opacity = 1;
+};
+</script>
 
 {% for s in page.sections %}
 
