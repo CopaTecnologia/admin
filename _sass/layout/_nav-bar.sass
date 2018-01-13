@@ -1,0 +1,20 @@
+.nav-bar
+    font:
+        weight: 600
+        size: .8em
+
+    .page-link
+        display: inline-block
+        vertical-align: middle
+        text-decoration: none
+        color: $grey-color
+        margin-right: $spacing-unit / 2
+
+        &:hover, &:focus, &:active
+            color: $brand-color
+    
+    .display-name
+        margin-right: $spacing-unit / 2
+
+        +media-query($on-palm)
+            display: none
