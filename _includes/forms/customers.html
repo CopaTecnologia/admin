@@ -1,0 +1,47 @@
+
+<form action="{{ site.baseurl }}/no-js-form.html" data-action="customers">
+
+    <header class="post-header">
+        <h3>Criar novo cliente</h3>
+    </header>
+
+    <div data-grid="spacing">
+        <p>
+            <label for="customer-name">Nome:</label>
+            <input name="name" id="customer-name" type="text">
+        </p>
+    
+        <p>
+            <label for="customer-company">Empresa:</label>
+            <input name="company" id="customer-company" type="text">
+        </p>
+    </div>
+
+    <div data-grid="spacing">
+        <p>
+            <label for="customer-email">E-mail:</label>
+            <input name="email" id="customer-email" type="email">
+        </p>
+    
+        <p>
+            <label for="customer-tel">Telefone:</label>
+            <input name="tel" id="customer-tel" type="tel">
+        </p>
+    
+        <p>
+            <label for="customer-website">Site:</label>
+            <input name="website" id="customer-website" type="text">
+        </p>
+    </div>
+
+    <p>
+        <label for="customer-description">Descrição:</label>
+        <textarea name="description" id="customer-description" cols="30" rows="3"></textarea>
+    </p>
+
+    <p data-grid="row nowrap center justify">
+        <button data-cell="shrink" data-btn="link" type="reset">Cancelar</button>
+        <button data-cell="shrink" data-btn>Criar</button>
+    </p>
+
+</form>

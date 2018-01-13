@@ -1,0 +1,46 @@
++module(modal)
+    @extend %transition
+
+    position: fixed
+    top: 100%
+    left: 0
+    right: 0
+    height: 100%
+    z-index: -999
+    padding: $spacing-unit
+    background-color: rgba(#000, .7)
+    opacity: 0
+
+    -webkit-transition-property: opacity
+    transition-property: opacity
+
+    &:target, &.on
+
+        top: 0
+        bottom: 0
+        z-index: 999
+        opacity: 1
+    
+    +child(content)
+
+        background-color: $background-color
+        border-radius: $ui-border-radius
+        max-height: 99%
+        overflow: auto
+    
+    [data-btn~="fechar"]
+        position: absolute
+        top: $spacing-unit / 2
+        right: $spacing-unit / 2
+        color: $brand-color
+        svg
+            color: inherit
+            width: 60px
+            height: 60px
+            +media-query($on-palm)
+                width: 40px
+                height: 40px
+            
+            path, rect, circ, polygon
+                fill: currentcolor
+

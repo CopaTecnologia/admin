@@ -1,4 +1,5 @@
 import element from './lib/element';
+import smartform from './lib/smartform';
 
 const FIREBASE_AUTH = firebase.auth();
 const FIREBASE_DATABASE = firebase.database();
@@ -26,7 +27,23 @@ const ui = {
         fn && fn(element);
     },
     renderSection: (section) => {
-        console.log(section);
+        const listContainer = section.querySelector('.app-list');
+        listContainer.innerHTML = '';
+        FIREBASE_DATABASE.ref(section.id).on('child_added', snapshot => {
+            const data = snapshot.val();
+            const item = render(section.querySelector('.template'), data);
+            if (item && !listContainer.contains(item)) listContainer.insertAdjacentElement('afterBegin', item);
+        });
+        const modal = section.querySelector('[data-modal]');
+        const openFormButton = section.querySelector('.open-form');
+        if (openFormButton && modal) {
+            openFormButton.addEventListener('click', function() {
+                modal.classList.add('on');
+            });
+            modal.querySelector('[data-btn~="fechar"]').addEventListener('click', function() {
+                modal.classList.remove('on');
+            });
+        }
     }
 };
 
@@ -39,6 +56,20 @@ ui.pageLinks.forEach(link => link.addEventListener('click', function(e) {
 }));
 
 FIREBASE_AUTH.onAuthStateChanged(handleAuthStateChanged);
+
+const appForms = window.appForms = Array.prototype.map.call(document.querySelectorAll('form'), form => smartform(form, {
+    set:    function() {},
+    change: function(e) {},
+    input:  function(e) {},
+    submit: function(e) {
+        e.preventDefault();
+        FIREBASE_DATABASE.ref(this.root.dataset.action).push(this.json());
+        this.root.reset();
+    },
+    reset:  function(e) {
+        Array.prototype.forEach.call(document.querySelectorAll('[data-modal].on'), modal => modal.classList.remove('on'));
+    }
+}));
 
 function signIn() {
     FIREBASE_AUTH.signInWithPopup( new firebase.auth.GoogleAuthProvider() );
@@ -75,7 +106,7 @@ function handleAuthStateChanged(user) {
         });
         ui.usernameLabel.innerHTML = `<span data-block="inline circ"><img src="${user.photoURL}" height="25"></span>
             <small title="${user.email}" class="display-name">${user.displayName}</small>`;
-        ui.show('#projects');
+        ui.show('#projects', nodes => ui.renderSection(nodes[0]));
 
     }
     else {
@@ -86,5 +117,23 @@ function handleAuthStateChanged(user) {
         ui.usernameLabel.innerHTML = '';
         ui.show('#greetings');
     }
-
+    
 };
+
+function render(element, data) {
+    if (!element || !element.cloneNode) return console.log('Template não encontrado!', element, data);
+    const container = element.cloneNode(true);
+    container.removeAttribute('hidden');
+    Array.prototype.forEach.call(container.querySelectorAll('[data-model]'), tag => {
+        const content = data[tag.getAttribute('data-model')];
+        if (content) {
+            if (tag.tagName === 'DATETIME') {
+                const date = new Date(content);
+                tag.textContent = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}h${date.getMinutes()}`;
+            }
+            else if (tag.tagName === 'IMG') tag.src = content;
+            else tag.textContent = content;
+        }
+    });
+    return container;
+}

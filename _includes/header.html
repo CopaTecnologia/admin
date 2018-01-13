@@ -2,18 +2,18 @@
 
   <div class="wrapper">
     
-    <section data-grid="row center">
+    <section data-grid="row center justify">
 
-      <div data-cell="">
+      <div data-cell="shrink">
 
-        <a class="page-link" href="{{ site.baseurl }}/">
+        <a href="{{ site.baseurl }}/" class="page-link">
           <img src="{{ site.baseurl }}/favicon.png" height="44" alt="{{ site.title }}">
         </a>
 
         {% for s in page.sections %}
 
           {% assign id = s[0] %}{% assign link = s[1] %}
-          <a href="#{{ id }}" class="page-link">{{ link.label }}</a>
+          <a href="#{{ id }}" class="page-link" data-cell="1of2">{{ link.label }}</a>
 
         {% endfor %}
 

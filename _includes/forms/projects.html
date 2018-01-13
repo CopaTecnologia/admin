@@ -7,21 +7,22 @@
 
     <p>
         <label for="project-name">Nome:</label>
-        <input name="project-name" id="project-name" type="text">
+        <input name="name" id="project-name" type="text">
     </p>
 
     <p>
         <label for="project-description">Descrição:</label>
-        <textarea name="project-description" id="project-description" cols="30" rows="3"></textarea>
+        <textarea name="description" id="project-description" cols="30" rows="3"></textarea>
     </p>
 
     <p>
         <label for="project-customer">Cliente:</label>
-        <select name="project-customer" id="project-customer"></select>
+        <select name="customer" id="project-customer"></select>
     </p>
 
-    <p>
-        <button>Criar</button>
+    <p data-grid="row nowrap center justify">
+        <button data-cell="shrink" data-btn="link" type="reset">Cancelar</button>
+        <button data-cell="shrink" data-btn>Criar</button>
     </p>
 
 </form>

@@ -12,6 +12,7 @@ sections:
         classes: 
         attr:
             hidden: 
+        form: true
     users:
         label: Usuários
         classes: 
@@ -26,7 +27,8 @@ sections:
         <div class="wrapper">
 
             <header class="post-header">
-                <h1>{{ site.title }}</h1>
+                <p>Copa Tecnologia</p>
+                <h1>Bizz</h1>
             </header>
     
             <p>{{ site.description }}</p>
@@ -46,31 +48,46 @@ sections:
 
 {% for s in page.sections %}
 
-{% assign name = s[0] %}{% assign section = s[1] %}
-
-<section class="page-content app-section {{ section.classes }}" id="{{ name }}" {%
-    for attr in section.attr %}{{ attr[0] }}="{{ attr[1] }}"{% endfor %}>
-
-    <div class="app-section-inner">
-
-        <div class="wrapper">
+    {% assign name = s[0] %}{% assign section = s[1] %}
     
-            <header class="post-header">
-                <h2>{{ section.label }}</h2>
-            </header>
-    
-            <div class="app-list"></div>
+    <section class="page-content app-section {{ section.classes }}" id="{{ name }}" {%
+        for attr in section.attr %}{{ attr[0] }}="{{ attr[1] }}"{% endfor %}>
         
+        <div class="app-section-inner">
+
             {% if section.form %}
-    
-                {% include forms/{{ name }}.html %}
-    
+
+            <div data-modal data-grid="row center">
+                <div class="wrapper" data-modal-content>
+                    <a href="javascript:;" data-btn="link fechar" data-text="lg">{% include svg/cancel.svg %}</a>
+                    {% include forms/{{ name }}.html %}
+                </div>
+            </div>
+
             {% endif %}
-    
+
+            <div class="wrapper">
+
+                <header class="app-section-header" data-grid="row center spacing">
+
+                    <h2>{{ section.label }}</h2>
+
+                    {% if section.form %}
+                    <div data-cell="shrink">
+                        <button class="open-form">Novo item</button>
+                    </div>
+                    {% endif %}
+
+                </header>
+
+                <div class="app-list"></div>
+
+                {% include templates/{{ name }}.html %}
+
+            </div>
+
         </div>
 
-    </div>
-
-</section>
+    </section>
 
 {% endfor %}

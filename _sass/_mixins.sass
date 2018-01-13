@@ -28,7 +28,7 @@ $am-prefix: data
         @content
 
 =child($childName)
-    $result: split-braces(#{&})
+    $result: split-braces("#{&}")
     @at-root [#{$result}-#{$childName}]
         @content
 
