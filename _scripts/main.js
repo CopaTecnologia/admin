@@ -82,6 +82,7 @@ function signOut() {
 function handleAuthStateChanged(user) {
 
     ui.hide(ui.sections);
+    ui.hide(document.querySelector('#greetings .loading'));
 
     if (user) {
 
@@ -106,6 +107,7 @@ function handleAuthStateChanged(user) {
         });
         ui.usernameLabel.innerHTML = `<span data-block="inline circ"><img src="${user.photoURL}" height="25"></span>
             <small title="${user.email}" class="display-name">${user.displayName}</small>`;
+        ui.show(ui.pageLinks);
         ui.show('#projects', nodes => ui.renderSection(nodes[0]));
 
     }
@@ -115,6 +117,7 @@ function handleAuthStateChanged(user) {
             show: [ui.signInButton]
         });
         ui.usernameLabel.innerHTML = '';
+        ui.hide(ui.pageLinks);
         ui.show('#greetings');
     }
     
