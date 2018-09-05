@@ -28,11 +28,14 @@ const ui = {
     },
     renderSection: (section) => {
         const listContainer = section.querySelector('.app-list');
+        const template = listContainer.querySelector('.template');
         listContainer.innerHTML = '';
         FIREBASE_DATABASE.ref(section.id).on('child_added', snapshot => {
             const data = snapshot.val();
-            const item = render(section.querySelector('.template'), data);
-            if (item && !listContainer.contains(item)) listContainer.insertAdjacentElement('afterBegin', item);
+            const item = render(template, data);
+            if (!item) return;
+            item.id = snapshot.key;
+            listContainer.insertAdjacentElement('afterBegin', item);
         });
         const modal = section.querySelector('[data-modal]');
         const openFormButton = section.querySelector('.open-form');
@@ -70,6 +73,24 @@ const appForms = window.appForms = Array.prototype.map.call(document.querySelect
         Array.prototype.forEach.call(document.querySelectorAll('[data-modal].on'), modal => modal.classList.remove('on'));
     }
 }));
+
+appForms.forEach(form => {
+    Array.prototype.forEach.call(form.root.querySelectorAll('select'), el => {
+        if (el.getAttribute('data-ref')) {
+            const template = el.querySelector('.template');
+            if (!template) return;
+            FIREBASE_DATABASE.ref(el.getAttribute('data-ref')).on('child_added', snapshot => {
+                const data = snapshot.val();
+                const item = template.cloneNode(true);
+                if (!item) return;
+                item.value = snapshot.key;
+                item.textContent = data[item.getAttribute('data-model')];
+                item.removeAttribute('hidden');
+                el.appendChild(item);
+            });
+        }
+    });
+});
 
 function signIn() {
     FIREBASE_AUTH.signInWithPopup( new firebase.auth.GoogleAuthProvider() );
@@ -130,13 +151,22 @@ function render(element, data) {
     Array.prototype.forEach.call(container.querySelectorAll('[data-model]'), tag => {
         const content = data[tag.getAttribute('data-model')];
         if (content) {
-            if (tag.tagName === 'DATETIME') {
+            if (tag.tagName === 'TIME') {
                 const date = new Date(content);
-                tag.textContent = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}h${date.getMinutes()}`;
+                tag.textContent = `${date.toLocaleString()}`;
             }
             else if (tag.tagName === 'IMG') tag.src = content;
             else tag.textContent = content;
         }
     });
+    Array.prototype.forEach.call(container.querySelectorAll('[data-ref]'), tag => {
+        if (!tag.getAttribute('data-key') || !tag.getAttribute('data-ref') || !tag.getAttribute('data-ref-model')) return;
+        const key = data[tag.getAttribute('data-key')];
+        if (!key) return;
+        FIREBASE_DATABASE.ref(tag.getAttribute('data-ref') + '/' + key).on('value', snapshot => {
+            const data = snapshot.val();
+            tag.textContent = data[tag.getAttribute('data-ref-model')];
+        });
+    })
     return container;
 }

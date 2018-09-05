@@ -17,7 +17,9 @@
 
     <p>
         <label for="project-customer">Cliente:</label>
-        <select name="customer" id="project-customer"></select>
+        <select name="customer" id="project-customer" data-ref="customers">
+            <option class="template" data-model="company" hidden="hidden"></option>
+        </select>
     </p>
 
     <p data-grid="row nowrap center justify">
